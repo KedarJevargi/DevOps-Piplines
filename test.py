@@ -1,6 +1,5 @@
 import threading
 
-
 def delayed_message():
     """This function will be called after the delay."""
     print('Waiting 3 seconds...')
@@ -17,8 +16,16 @@ timer.start()
 # This line executes immediately, without waiting for the timer.
 print('Tests')
 
-# Note: The script will print:
+# --- THIS IS THE FIX ---
+# Wait for the timer's thread to complete before the main script exits.
+# Without this, the script and the GitHub Action would exit immediately.
+timer.join()
+
+print('Test script finished.')
+
+# The script will now correctly print:
 # Starting tests...
 # Tests
-# (and then 3 seconds later)
+# (waits 3 seconds)
 # Waiting 3 seconds...
+# Test script finished.
